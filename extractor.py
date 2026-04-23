@@ -321,7 +321,7 @@ def score_and_rank(
 
 async def extract_palette(url: str) -> dict:
     async with async_playwright() as p:
-        browser = await p.chromium.launch()
+        browser = await p.chromium.launch(args=["--no-sandbox", "--disable-setuid-sandbox"])
         page = await browser.new_page(viewport={"width": 1280, "height": 900})
         await page.goto(url, wait_until="networkidle", timeout=30000)
         await page.wait_for_timeout(2000)
