@@ -2,7 +2,10 @@ services:
   - type: web
     name: hexfetch
     env: python
-    buildCommand: pip install -r requirements.txt && playwright install chromium && playwright install-deps chromium
+    buildCommand: pip install -r requirements.txt && playwright install chromium
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     plan: free
     healthCheckPath: /health
+    envVars:
+      - key: PLAYWRIGHT_BROWSERS_PATH
+        value: /opt/render/.cache/ms-playwright
