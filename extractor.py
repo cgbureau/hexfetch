@@ -213,17 +213,17 @@ def _parse_colour_values(raw: list) -> List[Tuple]:
 
 # ── Pixel Extraction ───────────────────────────────────────────────────────────
 
-def extract_pixel_colours(image_bytes: bytes, n_clusters=24) -> List[Tuple]:
+def extract_pixel_colours(image_bytes: bytes, n_clusters=16) -> List[Tuple]:
     """
     KMeans pixel clustering. Returns (rgb, true_frequency) pairs.
     true_frequency is always 0.0-1.0 representing share of pixels.
     Used as: visibility gatekeeper + fallback for image-based colours.
     """
     image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-    image.thumbnail((800, 800))
+    image.thumbnail((400, 400))
     pixels = np.array(image).reshape(-1, 3).astype(float)
 
-    sample_size = min(10000, len(pixels))
+    sample_size = min(3000, len(pixels))
     indices = np.random.choice(len(pixels), sample_size, replace=False)
     sample = pixels[indices]
 
